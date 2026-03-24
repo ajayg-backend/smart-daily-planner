@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>planner</title>
+</head>
+<body>
+
+<h2>Todays Planner</h2>
+
+<form method="POST">
+
+    <input type="time" name="time" required>
+    
+
+    <select name="day" required>
+        <option value="today">Today</option>
+        <option value="monday">Monday</option>
+        <option value="tuesday">Tuesday</option>
+        <option value="wednesday">Wednesday</option>
+        <option value="thursday">Thursday</option>
+        <option value="friday">Friday</option>
+        <option value="saturday">Saturday</option>
+        <option value="sunday">Sunday</option>
+    </select>
+
+    <input type="text" name="task" placeholder="Enter task" required>
+
+    <button type="submit">Add</button>
+
+</form>
+
+<hr>
+
+<h3>task</h3>
+
+{% for t in tasks %}
+ <p>
+    <b>{{ t. day }} | {{ t.time }} -> {{ t.task }}</b>
+    <a href="/delete/{{ loop.index0 }}">❌</a>
+</p>
+{% endfor %}
+
+
+<div id="popup" style="display:none; position:fixed; top:40%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border:2px solid black; border-radius:10px; text-align:center;">
+
+    <p id="popupText"></p>
+
+    <button onclick="stopSound()">stop 🔕</button>
+
+</div>
+
+<button id="soundBtn">Enable Sound 🔊</button>
+
+<audio id="enableSound" src="/static/click.mp3"></audio>
+
+<audio id="alarm" src="/static/alarm.mp3"</audio>
+
+<script>
+
+    let PlayedTasks = {};
+
+    let timerStarted = false;
+
+    let soundBtn = document.getElementById("soundBtn");
+
+    let enableAudio = document.getElementById("enableSound");
+    let alarmAudio = document.getElementById("alarm");
+   
+    let soundEnabled = false;
+
+    function stopSound() {
+        alarmAudio.pause();
+        alarmAudio.currentTime = 0;
+
+        document.getElementById("popup").style.display = "none";
+    }
+
+    soundBtn.onclick = function() {
+        
+        enableAudio.currentTime = 0;
+        enableAudio.play();
+        
+        this.innerText = "Sound Enabled ✅";
+        this.style.backgroundColor = "green";
+       
+         soundEnabled = true;
+   };
+
+    let interval = setInterval(function () {
+
+        let now = new Date();
+
+        let hours = now.getHours().toString().padStart(2, '0');
+        let minutes = now.getMinutes().toString().padStart(2, '0');
+
+        let currentTime = hours + ":" + minutes;
+
+        console.log("Time:", currentTime);
+
+        {% for t in tasks %}
+
+        let taskTime = "{{ t.time }}".trim();
+
+        console.log("Task time:", taskTime);
+
+        if (currentTime === taskTime && !PlayedTasks[taskTime]) {
+
+            document.getElementById("popup").style.display = "block";
+
+            document.getElementById("popupText").innerText =
+                "Time for: {{ t. task }}" 
+
+            if (soundEnabled) {
+                alarmAudio.currentTime = 0;
+                alarmAudio.play();
+            }
+            PlayedTasks[taskTime] = true;
+        }
+        
+        {% endfor %}
+
+    }, 1000);
+
+</script>
+
+</body>
+</html>
