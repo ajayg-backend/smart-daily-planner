@@ -5,6 +5,23 @@
 
 <style> 
 
+    .card{    
+    }
+    .sidebar a {
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+        color: black;
+    }
+
+    .sidebar a.active {
+        background-color: #000;
+        color: white;
+        border-radius: 8px;
+    }
+    
+</style>
+
 body{
 font-family: Ariel;
 background:#f5f5f5;
@@ -52,12 +69,15 @@ box-shadow:0 2px 8px rgba(0,0,0,0.1);
 
 <div class="sidebar">
 <h2>🚀 TaskFlow</h2>
-
-<a href="#"🧠 Daily Learning</a>
-<a href="#"💰 Expenses</a>
-<a herf="📆" Planner</a>
-<a herf="📖" Memories</a>
-<a herf="🤖" Personal AI</a>
+<!--
+<a href="#">🧠 Daily Learning</a>
+<a href="#">💰 Expenses</a>
+-->
+<a herf="/planner" class="active">📅 Planner</a>
+<!--
+<a herf="#">📸 Memories</a>
+<a herf="#">🤖 Personal AI</a>
+-->
 
 </div>
 
