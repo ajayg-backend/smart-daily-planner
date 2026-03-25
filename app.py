@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, redirect
+import os
 import sqlite3
+from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
 
@@ -18,6 +19,7 @@ def planner():
         tasks.append({
             "day": day,
             "time": time,
+
             "task": task
         })
 
@@ -96,5 +98,8 @@ def create_db():
 create_db()
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 5001))
+    )
 
