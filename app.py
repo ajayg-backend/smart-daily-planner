@@ -33,7 +33,7 @@ def delete(index):
 
 @app.route("/")
 def home():
-    return render_template("planner.html")
+    return render_template("planner")
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
